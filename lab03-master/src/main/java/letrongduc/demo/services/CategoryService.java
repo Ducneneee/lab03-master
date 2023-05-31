@@ -9,21 +9,29 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import letrongduc.demo.repository.ICategoryRepository;
+
 @Service
 public class CategoryService {
     @Autowired
     private ICategoryRepository categoryRepository;
-    public List<Category> getAllCategories() {
+
+    public List<Category> getAllCategory(){
         return categoryRepository.findAll();
     }
     public Category getCategoryById(Long id){
-        return categoryRepository.findById(id).orElse(null);
+        Optional<Category> optionalCategory = categoryRepository.findById(id);
+        if(optionalCategory.isPresent()){
+            return optionalCategory.get();
+        } else {
+            throw new RuntimeException("Category Not Found");
+        }
     }
-    public Category saveCategory(Category category){
-        return categoryRepository.save(category);
+    public void addCategory(Category newCategory){
+        categoryRepository.save(newCategory);
     }
-    public void deleteCategory(Long id) {
-        categoryRepository.deleteById(id);
+    public Category saveCategory(Category category) { return categoryRepository.save(category);}
+    public void updateCategory(Category category){
+        categoryRepository.save(category);
     }
+    public void deleteCategory(Long id) {categoryRepository.deleteById(id);}
 }

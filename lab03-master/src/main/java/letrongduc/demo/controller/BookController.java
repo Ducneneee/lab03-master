@@ -31,13 +31,13 @@ public class BookController {
     @GetMapping("/add")
     public String addBookForm(Model model){
         model.addAttribute("book", new book());
-        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("categories", categoryService.getAllCategory());
         return "book/add";
     }
     @PostMapping("/add")
     public String addBook(@Valid @ModelAttribute("book") book book, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("categories", categoryService.getAllCategories());
+            model.addAttribute("categories", categoryService.getAllCategory());
             return "book/add";
         }
 
@@ -50,7 +50,7 @@ public class BookController {
         book editBook = bookService.getBookById(id);
         if(editBook != null){
             model.addAttribute("book", editBook);
-            model.addAttribute("categories", categoryService.getAllCategories());
+            model.addAttribute("categories", categoryService.getAllCategory());
             return "book/edit";
         }else {
             return "not-found";
